@@ -3,28 +3,42 @@
 
 #include <TFT_eSPI.h>
 #include <SPI.h>
+#include <Wire.h> 
 #include <Adafruit_FT6206.h>
+#include "WiFiSniffer.h"
+
+enum PageState {
+    PAGE_MENU = 0,
+    PAGE_SNIFFER = 1,
+    PAGE_JAM = 2,
+    PAGE_SENSOR = 3,
+    PAGE_GPS = 4
+};
 
 class MenuDisplay {
 public:
     MenuDisplay();
-
     void begin();
     void drawMenu();
+    PageState checkTouch();
 
-    int checkTouch();  // Returns selected menu option (1–4), or 0 if none
+    bool checkBackButton(int tftX, int tftY);
+    void drawBackButton();
 
-    // Example sub-pages
     void showPacketSnifferPage();
     void showStrawberryJamPage();
     void showWirelessSensorPage();
     void showGPSPage();
 
+    void drawSnifferData(WiFiSniffer &sniffer);
+    void updateHeatmap(int rssi);
+
 private:
     TFT_eSPI tft;
     Adafruit_FT6206 touch;
+
+    int rssiToColor(int rssi);
 };
 
 #endif
-
 
