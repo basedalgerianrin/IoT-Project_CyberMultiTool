@@ -2,15 +2,21 @@
 #define GPS_H
 
 #include <Arduino.h>
-#include <TinyGPS++.h>
+#include <TinyGPS++.h> 
 
 class GPSReader {
 public:
     GPSReader(int rxPin, int txPin, int baudrate);
-
     void begin();
     void update();
     void printStatus();
+
+    // --- Getter methods for TFT display ---
+    float getLatitude();
+    float getLongitude();
+    float getAltitude();
+    float getSpeed();
+    String getDateTime();
 
 private:
     int _rxPin;
@@ -18,7 +24,7 @@ private:
     int _baudrate;
 
     TinyGPSPlus _gps;
-    unsigned long _lastPrint = 0;
+    unsigned long _lastPrint;
 
     void printLocation();
     void printAltitude();
