@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://thingspeak.mathworks.com/channels/3297804/private_show -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>.ckimg{height:auto !important; max-width:300px;}</style>
+  <script type="text/javascript" async="" src="./GPS - ThingSpeak IoT_files/htZ.js.download" crossorigin="anonymous"></script><script type="text/javascript" src="./GPS - ThingSpeak IoT_files/satelliteLib-c70de708e9cd05573175cb144bac6233555f70e5.js.download" integrity="sha384-FHIghZStVUwH7KBgzTjFuxxk5zPLiKRZ5QIUvFlJYNUc6qZ+SQquvgaixgB9MaIK" crossorigin="anonymous"></script><script src="./GPS - ThingSpeak IoT_files/AppMeasurement.min.js.download" async=""></script>
+
+  <link href="./GPS - ThingSpeak IoT_files/css" rel="stylesheet" type="text/css">
+  <link href="./GPS - ThingSpeak IoT_files/css(1)" rel="stylesheet" type="text/css">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GPS - ThingSpeak IoT</title>  
+    <meta name="description" content="GPS module information - GPS on ThingSpeak - ThingSpeak is the open IoT platform with MATLAB analytics.">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://thingspeak.mathworks.com/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="https://thingspeak.mathworks.com/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://thingspeak.mathworks.com/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="https://thingspeak.mathworks.com/manifest.json">
+  <link rel="mask-icon" href="https://thingspeak.mathworks.com/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- alt url handling for css link and script tags onerror handler -->
+  <script type="application/javascript">
+    function tryCssAltUrl(linkEl, altUrl) {
+      linkEl.removeAttribute('onerror');  // avoid infinite loop if alt url also error
+      linkEl.href=altUrl;
+    }
+    function tryJsAltUrl(altUrl, integrity) {
+      const script=document.createElement('script');
+      script.src=altUrl;
+      if (integrity) {
+        script.integrity=integrity;
+        script.crossOrigin='anonymous';
+      }
+      document.head.appendChild(script);
+    }
+  </script>
+
+  <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" onerror="tryCssAltUrl(this,&#39;/bootstrap@5.2.2/dist/css/bootstrap.min.css&#39;);">
+  <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" onerror="tryCssAltUrl(this,&#39;/font-awesome-4.7.0/css/font-awesome.min.css&#39;);">
+  <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/bootstrap_overrides-0e984f58dd8a3e797ba20e5519bba926c5e0c8a2005f489c266494759dbe506e.css" data-turbolinks-track="reload" media="screen">
+  <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/application-c5de5de47f3a82eff6beafbb33fa1753f81217daf451c2b22c36253abf8b9072.css" data-turbolinks-track="reload" media="screen">
+
+  <script src="./GPS - ThingSpeak IoT_files/jquery-a3700c90d2826f7657df0dd91127a4fc6130d3c6e65eb2ab450a04a56b9040bd.js.download"></script>
+  <script type="text/javascript" src="./GPS - ThingSpeak IoT_files/bootstrap.bundle.min.js.download" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous" onerror="tryJsAltUrl(&#39;/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&#39;,&#39;sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3&#39;);"></script>
+  <script type="text/javascript" src="./GPS - ThingSpeak IoT_files/jquery.tablesorter.combined.min.js.download" integrity="sha384-cfN+2tMN63B5BOlY4cbvyOdOpp2v+DGGmz1ZxHfGNNq0uPIFdS4R53iurgbTOgLu" crossorigin="anonymous"></script>
+  <script src="./GPS - ThingSpeak IoT_files/application-2dc44ae2690c91d6068664aa7d9bef0de9d73b34c35c99a874bd35763a88fd46.js.download" data-turbolinks-track="reload"></script>
+  <script type="text/javascript" src="./GPS - ThingSpeak IoT_files/clipboard.min.js.download" integrity="sha384-CUdYwYFu8WmBI8h257c5rCd1GQX0KL+zSYV6kyRNY2thW7QqQymKGfTCI1WHwzvy" crossorigin="anonymous"></script>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="0dNO54RZ1qlFlBIGIdRaGFK-xLWvIEqvSdBFW0pM8EFmy8fR4Vg-f3qdR8QKdFqcsXBt-Yd2acn3ZfBRaWe6uQ">
+
+  
+  <!-- Qualaroo for thingspeak.com -->
+  <script src="./GPS - ThingSpeak IoT_files/ts_qualaroo_loader-36e56e29a01d4ad7a1ada41d2aef3275308d3a3644040a01e12139d34997bd00.js.download" defer="defer"></script>
+
+<style type="text/css" id="ki-hnh-hnt"></style><style type="text/css" id="ki-hnh-hsu"></style></head>
+  
+  <body class="" style="">
+    <div id="wrap">
+      <nav class="navbar fixed-top navbar-expand-lg ts-navbar mb-4" style="">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="https://thingspeak.mathworks.com/">
+        <img style="padding: 0 8px; margin-top: 7px;" id="nav-thingspeak-logo" data-turbolinks="false" src="./GPS - ThingSpeak IoT_files/thingspeak_logo_white-ef4990033a96773df16f2a98e7d72e06f1f497d026145ebbcce1aa9d974e9015.png" width="200" height="35">
+</a>    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" data-turbolinks="false">
+      <ul class="navbar-nav ms-auto mb-lg-0 d-lg-none d-xl-none sign-in-nav">
+        <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/sign_in-47de9a06d5e86fec507a15ad5b577134c1905169819044a6d393c3d1b5d910ea.css" media="screen">
+  <li class="dropdown">
+    <a href="https://thingspeak.mathworks.com/channels/3297804/private_show#" title="" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown" data-bs-toggle="dropdown" id="nav-account">
+      <div class="sign-in-display d-inline">
+        <img class="user-image" onerror="this.src=&#39;/assets/ico-header-account-active-a8b7d1aca3b339fa3ab2e532f542108ebc26f8e6c0cfd66e1b550bc088a6ad98.svg&#39;;" src="./GPS - ThingSpeak IoT_files/ico-header-account-active-a8b7d1aca3b339fa3ab2e532f542108ebc26f8e6c0cfd66e1b550bc088a6ad98.svg" width="25" height="25">
+      </div>
+      <div class="d-inline">
+        <span class="sign-in-display sign-in-name">
+          <b class="caret"></b>
+        </span>
+      </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-account">
+      <li><a id="nav-my-account" data-turbolinks="false" class="dropdown-item" href="https://thingspeak.mathworks.com/account">My Account</a></li>
+      <li><a id="nav-edit-account" data-turbolinks="false" class="dropdown-item" href="https://thingspeak.mathworks.com/account/profile">My Profile</a></li>
+      <li><a id="nav-sign-out" data-turbolinks="false" onclick="setSIDCookie()" class="dropdown-item" href="https://thingspeak.mathworks.com/logout">Sign Out</a></li>
+    </ul>
+  </li>
+
+      </ul>
+      <ul class="navbar-nav me-auto mb-lg-0">
+          <li class="active dropdown">
+            <a class="nav-link dropdown-toggle" href="https://thingspeak.mathworks.com/channels/3297804/private_show#" id="nav-channels" data-bs-toggle="dropdown" aria-expanded="false">
+              Channels <strong class="caret"></strong>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="nav-channels">
+              <li><a id="nav-my-channels" class="dropdown-item" href="https://thingspeak.mathworks.com/channels">My Channels</a></li>
+              <li><a id="nav-public-channels" class="dropdown-item" href="https://thingspeak.mathworks.com/image_channels">My Image Channels</a></li>
+              <li><a id="nav-watched-channels" class="dropdown-item" href="https://thingspeak.mathworks.com/channels/watched">Watched Channels</a></li>
+              <li><a id="nav-public-channels" class="dropdown-item" href="https://thingspeak.mathworks.com/channels/public">Public Channels</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="https://thingspeak.mathworks.com/channels/3297804/private_show#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="nav-apps">Apps <b class="caret"></b></a>
+            <ul class="dropdown-menu" aria-labelledby="nav-apps">
+              <li><a id="nav-apps-all" class="dropdown-item" href="https://thingspeak.mathworks.com/apps">All Apps</a></li>
+                <li><a id="nav-matlab-analysis-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/matlab_analyses">MATLAB Analysis</a></li>
+                <li><a id="nav-matlab-visualizations-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/matlab_visualizations">MATLAB Visualizations</a></li>
+              <li><a id="nav-plugins-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/plugins">Plugins</a></li>
+              <li><a id="nav-timecontrols-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/timecontrols">TimeControl</a></li>
+              <li><a id="nav-react-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/reacts">React</a></li>
+              <li><a id="nav-talkback-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/talkbacks">TalkBack</a></li>
+              <li><a id="nav-thinghttp-app" class="dropdown-item" href="https://thingspeak.mathworks.com/apps/thinghttp">ThingHTTP</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="https://thingspeak.mathworks.com/channels/3297804/private_show#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" aria-expanded="false" id="nav-mqtt">Devices<strong class="caret"></strong></a>
+            <ul class="dropdown-menu" aria-labelledby="nav-mqtt">
+              <li><a class="dropdown-item" href="https://thingspeak.mathworks.com/devices/mqtt">MQTT</a></li>
+            </ul>
+          </li>
+        <li class="dropdown">
+          <a href="https://thingspeak.mathworks.com/channels/3297804/private_show#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" aria-expanded="false" id="nav-support">Support<b class="caret"></b></a>
+          <ul class="dropdown-menu" aria-labelledby="nav-support">
+            <li><a href="https://www.mathworks.com/help/thingspeak/" target="_blank" rel="noopener noreferrer" id="nav-support-doc" class="dropdown-item">Documentation</a></li>
+            <li><a href="https://www.mathworks.com/help/thingspeak/getting-started-with-thingspeak.html" target="_blank" rel="noopener noreferrer" id="nav-support-tutorials" class="dropdown-item">Tutorials</a></li>
+            <li><a href="https://www.mathworks.com/help/thingspeak/examples.html" target="_blank" rel="noopener noreferrer" id="nav-support-examples" class="dropdown-item">Examples</a></li>
+            <li><a href="https://www.mathworks.com/matlabcentral/topics/thingspeak.html" target="_blank" rel="noopener noreferrer" id="nav-support-forum" class="dropdown-item">Community Support</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="ms-auto d-sm-none d-md-block">
+        <ul class="navbar-nav me-auto">
+          <span class="navbar-nav d-none d-lg-block">
+            <li class="dropdown"><a id="commercial-learn-more-nav" class="nav-link" href="https://thingspeak.mathworks.com/pages/commercial_learn_more">Commercial Use</a></li>
+          </span>
+          <li class="dropdown"><a id="nav-sign-in" class="nav-link" href="https://thingspeak.mathworks.com/prices">How to Buy</a></li>
+          <div class="d-none d-lg-block user-nav">
+            <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/sign_in-47de9a06d5e86fec507a15ad5b577134c1905169819044a6d393c3d1b5d910ea.css" media="screen">
+  <li class="dropdown">
+    <a href="https://thingspeak.mathworks.com/channels/3297804/private_show#" title="" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown" data-bs-toggle="dropdown" id="nav-account">
+      <div class="sign-in-display d-inline">
+        <img class="user-image" onerror="this.src=&#39;/assets/ico-header-account-active-a8b7d1aca3b339fa3ab2e532f542108ebc26f8e6c0cfd66e1b550bc088a6ad98.svg&#39;;" src="./GPS - ThingSpeak IoT_files/ico-header-account-active-a8b7d1aca3b339fa3ab2e532f542108ebc26f8e6c0cfd66e1b550bc088a6ad98.svg" width="25" height="25">
+      </div>
+      <div class="d-inline">
+        <span class="sign-in-display sign-in-name">
+          <b class="caret"></b>
+        </span>
+      </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-account">
+      <li><a id="nav-my-account" data-turbolinks="false" class="dropdown-item" href="https://thingspeak.mathworks.com/account">My Account</a></li>
+      <li><a id="nav-edit-account" data-turbolinks="false" class="dropdown-item" href="https://thingspeak.mathworks.com/account/profile">My Profile</a></li>
+      <li><a id="nav-sign-out" data-turbolinks="false" onclick="setSIDCookie()" class="dropdown-item" href="https://thingspeak.mathworks.com/logout">Sign Out</a></li>
+    </ul>
+  </li>
+
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/navbar-9724aa5cdf901f82ab3a017d62a62bc4581eba9578e9919df8e83826c7fbc0d5.css" data-turbolinks-track="reload" media="screen">
+
+      <div class="container">
+          <div class="flash alert alert-success" style="display: none;">
+    <span class="dismiss"><i class="fa fa-close"></i></span>
+    <p>The Channel was updated.</p>
+  </div>
+
+        <div class="row">
+  <div id="invalid_widget_parameter" class="alert alert-danger alert-dismissable" style="display:none; clear:both">
+	<span id="invalid_widget_parameter_close" class="dismiss"><i class="fa fa-close"></i></span>
+	<a href="https://www.mathworks.com/help/thingspeak/channel_display_widgets.html" target="_blank" rel="noopener noreferrer" data-turbolinks="false" id="widget_param_doc" class="exhaustion_alert">Widget Documentation</a>
+	<span id="widget-config-err-msg">
+	</span>
+</div>
+
+<div id="invalid_widget_type" class="alert alert-danger alert-dismissable" style="display:none; clear:both">
+	<span id="invalid_widget_type_close" class="dismiss"><i class="fa fa-close"></i></span>
+	<span>
+		You have selected an invalid widget to be created. Please select a valid widget to be created.
+	</span>
+</div>
+      <div id="exhaustion_div">
+
+  <div class="alert alert-danger alert-dismissible expiration_reminder" style="display:none; clear:both" role="alert">
+    <span>
+      License <strong><span name="license_id_val_expire" id="license_id_val_expire"></span></strong>
+       will expire at the end of 
+      <strong><span name="expiration_date" id="expiration_date"></span></strong>.
+    </span>
+    <span>
+      <a data-turbolinks="false" id="call_of_action_to_expire" class="exhaustion_alert"> Buy a new license
+      </a>
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible exhaustion_reminder" style="display:none; clear:both" role="alert">
+    <span>
+      Based on your current daily usage rate,
+        you
+      will run out of messages on:  
+      <strong><span name="exp_expiration_date" id="exp_expiration_date"></span></strong>.
+    </span>
+    <span>
+        <a data-turbolinks="false" id="call_of_action_exhaust" class="exhaustion_alert" href="https://thingspeak.mathworks.com/prices"> Buy a new license
+      </a>
+    </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible shutoff_expiration_alert" style="display:none; clear:both" role="alert">
+      <span>
+        Your term  has expired at the end of <strong><span name="shut_off_date_exp" id="shut_off_date_exp"></span></strong>.
+        </span>
+        <span>
+        <a data-turbolinks="false" id="call_of_action_expire" class="exhaustion_alert"> Buy a new license</a>
+      </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible shutoff_alert" style="display:none; clear:both" role="alert">
+      <span>
+        You have run out of messages as of: <strong><span name="shut_off_date" id="shut_off_date"></span></strong>.
+      </span>
+      <span>
+        <a data-turbolinks="false" id="call_of_action_shutoff" class="exhaustion_alert"> Buy a new license</a>
+      </span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+</div>
+
+    <div class="channel-pages">
+      <h1 id="channel-name-header">GPS</h1>
+      <!-- Show Channel meta data only when a channel is public or is the user's private channel, g1368777, the parentheses are redundant, since && precedes ||, but they don't hurt-->
+      <!-- myChannel? is a  helper method -->
+        <div class="row">
+  <div class="col-sm-4">
+    <ul class="no-bullets" id="table-channel-metadata">
+      <li>Channel ID: <strong id="channel-metadata-id">3297804</strong></li>
+      <li>Author: <a target="_blank" href="https://thingspeak.mathworks.com/users/mwa0000040766272">mwa0000040766272</a></li>
+      <li id="channel-metadata-access">Access: Private</li>
+    </ul>
+  </div>
+  <div class="col-sm-6">
+    <div class="channel-info-desc">
+      <div class="margin-left">
+        GPS module information<br>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div class="row channel-pages">
+      <ul class="nav nav-tabs" data-turbolinks="false">
+        <li class="nav-item">
+          <a id="channel_link_private_view" class="nav-link active" href="https://thingspeak.mathworks.com/channels/3297804/private_show">Private View</a>
+        </li>
+        <li class="nav-item">
+          <a id="channel_link_public_view" class="nav-link" href="https://thingspeak.mathworks.com/channels/3297804">Public View</a>
+        </li>
+        <li class="nav-item">
+          <a id="channel_link_settings" class="nav-link" href="https://thingspeak.mathworks.com/channels/3297804/edit">Channel Settings</a>
+        </li>
+        <li class="nav-item">
+          <a id="channel_link_sharing" class="nav-link" href="https://thingspeak.mathworks.com/channels/3297804/sharing">Sharing</a>
+        </li>
+        <li class="nav-item">
+          <a id="channel_link_api_keys" class="nav-link" href="https://thingspeak.mathworks.com/channels/3297804/api_keys">API Keys</a>
+        </li>
+        <li class="nav-item">
+          <a id="channel_link_import" class="nav-link" href="https://thingspeak.mathworks.com/channels/3297804/import_export">Data Import / Export</a>
+        </li>
+      </ul>
+      </div>
+
+
+  <div class="col-sm-12 col-md-12">
+    <div class="row">
+  <div class="col-12 col-sm-6">  
+      <div id="add_visualization_modal" class="modal" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog window-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Click on a visualization to add it to the Channel</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body window-body">
+        <div id="add_visualization_modal_content_body">
+          <!-- empty widget list banner, hidden by default -->
+          <h3 id="add_visualization_empty_text" class="text_center">No visualizations are available to display.</h3>
+         <div id="window_preview_template" class="window-preview-container" title="Field 1 Chart" style="background-image: url(/assets/add_visualization_chart-a41736c2720006799b06e29c3b76d24b02ce64ea9bd73d824af0809474953d02.svg)" content-type="chart" content-id="1">
+  <div class="window-header">
+    <div class="window-title">Field 1 Chart</div>
+  </div>
+</div>
+ <div id="window_preview_template" class="window-preview-container" title="Field 2 Chart" style="background-image: url(/assets/add_visualization_chart-a41736c2720006799b06e29c3b76d24b02ce64ea9bd73d824af0809474953d02.svg)" content-type="chart" content-id="2">
+  <div class="window-header">
+    <div class="window-title">Field 2 Chart</div>
+  </div>
+</div>
+</div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button type="button" id="add_visualization_save" data-bs-dismiss="modal" class="btn btn-primary">Save</button>
+        <button type="button" id="add_visualization_cancel" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+<script src="./GPS - ThingSpeak IoT_files/widget-425f7cbff6ae2fb624411ee9ad8ba83d43f33db47ff1cbf968cb008a4e22304f.js.download" data-turbolinks-track="reload"></script>
+<script src="./GPS - ThingSpeak IoT_files/htmlUtils-e0123513218182b592fad424cd73a0fbdb891a8a4835d1cbe84f9000fa127370.js.download" data-turbolinks-track="reload"></script>
+
+<div id="add_widget_modal" class="modal" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog window-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Click on a widget to add it to the Channel</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body window-body">
+        <div id="add_widget_modal_content_body">
+          <h3 id="add_widget_empty_text" class="text_center" hidden="hidden">No widgets are available to display.</h3>
+          <!-- populate widget preview
+               widget_list is an array of hashes
+               [ { content_type, content_id, title, image_name } ] -->
+            <div id="window_preview_template" class="window-preview-container" title="Gauge" style="background-image: url(/assets/add_widget_gauge-d71b80e4774de3c6071e0434a998561a82f5e161d96db8d432cd0293816f0b3b.svg)" content-type="widget" content-id="">
+  <div class="window-header">
+    <div class="window-title">Gauge</div>
+        <div id="widget-metadata-id" style="display: none;">0</div>
+  </div>
+</div>
+
+            <div id="window_preview_template" class="window-preview-container" title="Numeric Display" style="background-image: url(/assets/add_numeric_display-d5b1a6e43d55d3c3ae7834c77a6f745ef2b05a98d893113201302b156e72f29f.svg)" content-type="widget" content-id="">
+  <div class="window-header">
+    <div class="window-title">Numeric Display</div>
+        <div id="widget-metadata-id" style="display: none;">1</div>
+  </div>
+</div>
+
+            <div id="window_preview_template" class="window-preview-container" title="Lamp Indicator" style="background-image: url(/assets/lamp-e06df52dcbe969787a34d96fffbad569b7508a349f30e174036fc4d56b86ce20.svg)" content-type="widget" content-id="">
+  <div class="window-header">
+    <div class="window-title">Lamp Indicator</div>
+        <div id="widget-metadata-id" style="display: none;">2</div>
+  </div>
+</div>
+
+            <div id="window_preview_template" class="window-preview-container" title="Image Display" style="background-image: url(/assets/image-bf02ccbc69aec0f947f9c15cc38009dee25b732cb13fc9b4c6a82c757f2732de.svg)" content-type="widget" content-id="">
+  <div class="window-header">
+    <div class="window-title">Image Display</div>
+        <div id="widget-metadata-id" style="display: none;">3</div>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button type="button" id="add_widget_next" data-bs-toggle="modal" data-bs-target="#configure_widget_parameters_modal" class="btn btn-primary">Next</button>
+        <button type="button" id="add_widget_cancel" data-bs-dismiss="modal" class="btn btn-default add_widget_cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div id="configure_widget_parameters_modal" class="modal" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog window-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Configure widget parameters</h4>
+        <div class="d-flex justify-content-end">
+        <a href="https://www.mathworks.com/help/thingspeak/channel_display_widgets.html" target="_blank" class="close">
+            <i class="fa fa-question float-end widget-info" aria-hidden="true"></i>
+</a>          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body window-body">
+        <div id="gauge_min_max_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="gauge_min_max_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="min_max_error_span">Max Value should be greater than Min Value</span>
+</div>
+
+<div id="units_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="units_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="units_error_span">Numbers not supported in units field.</span>
+</div>
+        <div id="configure_widget_modal_content_body"><div id="widget_type_metadata_" style="display: none;">1</div><table id="widget_params_config_"><tbody><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Name</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" maxlength="80" placeholder="Enter Name for the widget " type="text" id="name_" name="name" value=""> </td><td class="widget-table-cells"> &nbsp; </td></tr><tr><td class="widget-table-cells widget-form-label"> <label class="col-form-label">Field</label></td><td colspan="2" class="widget-table-cells"> <select class="form-select" id="field_" name="field"> <option value="Field 1"> Field 1 </option>  <option value="Field 2"> Field 2 </option> </select></td></tr><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Update Interval</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" placeholder=" " type="number" oninput="validity.valid||(value=15)" min="15" id="update_interval_" name="update_interval" value="15"> </td><td class="widget-table-cells"> &nbsp; second(s)</td></tr><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Units</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" placeholder="Enter Measurement Units " type="text" id="units_" name="units" value=""> </td><td class="widget-table-cells"> &nbsp; </td></tr><tr><td class="widget-form-label widget-table-cells">  <label class="col-form-label">Data Type </label></td><td><input style="margin-right:4px;" class="radio-control" id="data_type_integer_" type="radio" name="data_type_integer_" onclick="disableScaleAndSelectInteger()" value="Integer">Integer</td><td><input style="margin-right:4px;" class="radio-control" id="data_type_decimal_" type="radio" name="data_type_decimal_" onclick="enableScaleAndSelectDecimal()" value="Decimal">Decimal</td><td><select class="form-select" disabled="" '="" id="data_type_select_" name="data_type_select_"><option value="1" selected=""> 1 </option><option value="2"> 2 </option><option value="3"> 3 </option><option value="4"> 4 </option><option value="5"> 5 </option></select></td><td style="font-size: 14px;"><p style="margin-left: 4px; color: grey;" id="data_type_selectText_" name="data_type_selectText_"> (# of places)</p></td></tr></tbody></table></div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button type="button" id="add_widget_create" class="btn btn-primary">Create</button>
+        <button type="button" id="add_widget_cancel" data-bs-dismiss="modal" class="btn btn-default add_widget_cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#add_visualization_modal" class="btn btn-default btn-sm btn-margin-bottom"><em class="fa fa-plus-square timecontrol_index"></em>&nbsp;Add Visualizations</button>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#add_widget_modal" class="btn btn-default btn-sm btn-margin-bottom"><em class="fa fa-plus-square timecontrol_index"></em>&nbsp;Add Widgets</button>
+    
+    <div id="devinfo_modal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Export recent data</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table table-striped">
+          <caption></caption>
+          <tbody><tr style="display: none;">
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+          <tr>
+            <td>GPS Channel Feed:</td>
+            <td>
+              <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/feed.json">JSON</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/feed.xml">XML</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/feed.csv">CSV</a>
+            </td>
+          </tr>
+
+              <tr>
+                <td>Field 1 Data:  Coordinates view </td>
+                <td>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/1.json">JSON</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/1.xml">XML</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/1.csv">CSV</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Field 2 Data:  Map view </td>
+                <td>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/2.json">JSON</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/2.xml">XML</a>
+                  <a target="_blank" rel="noopener noreferrer" href="https://thingspeak.mathworks.com/channels/3297804/field/2.csv">CSV</a>
+                </td>
+              </tr>
+        </tbody></table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    <button type="button" data-bs-toggle="modal" data-bs-target="#devinfo_modal" class="btn btn-default btn-sm btn-margin-bottom" id="channel-data-export-button"><em class="fa fa-external-link-square timecontrol_index"></em>&nbsp;Export recent data</button>
+
+
+  </div>
+  <div class="col-md-6">
+    <div class="float-end">
+        <a class="btn btn-primary btn-sm btn-margin-bottom" id="channel-matlab-analysis-button" href="https://thingspeak.mathworks.com/apps/matlab_analyses/templates">MATLAB Analysis</a>
+        <a class="btn btn-primary btn-sm btn-margin-bottom" id="channel-matlab-visualization-button" href="https://thingspeak.mathworks.com/apps/matlab_visualizations/templates?channel_id=3297804&amp;is_private_view=true">MATLAB Visualization</a>
+    </div>
+  </div>
+</div>
+
+    <div class="float-end" data-turbolinks="false">
+     </div>
+
+    <div class="row channel-stats">
+    <div class="col-12">
+      <h2>Channel Stats</h2>
+      <ul class="no-bullets">
+        <li>
+          Created: <abbr class="timeago channel_time_text" title="2026-03-12T16:53:09Z">8 minutes ago</abbr>
+        </li>
+        <li>Entries: <span id="channel-entry-count">0</span></li>
+      </ul>
+    </div>
+  </div>
+  
+  <script> var channelURL = '/channels/' + 3297804 + '/feeds/last.json'; </script>
+  
+  <script>
+//<![CDATA[
+function updateChannelInfo(){
+        setInterval(function(){
+          jQuery.ajax({url: channelURL})
+            .done(function(data){
+               if (null !== data){
+                 // update the last written at element
+                  element = document.getElementById('channel-last-written-at');
+                  if (null !== element && undefined !== data.created_at) {
+                    // store the previous entry and compare with current. If we get an older date, ignore it.
+                    max_created_at = new Date(element.title);
+                    current_created_at = new Date(data.created_at);
+                    if (current_created_at > max_created_at) {max_created_at = current_created_at;}
+                    parentNode = element.parentNode;
+                    max_created_at = max_created_at.toISOString();
+                    newElement = document.createElement('abbr');
+                    newElement.setAttribute('id','channel-last-written-at');
+                    newElement.setAttribute('class','timeago channel_time_text');
+                    newElement.setAttribute('title',max_created_at);
+                    newElement.innerText = jQuery.timeago(max_created_at);
+                    // Add element and remove the existing element as it is tied to a timeago timer
+                    if (parentNode) {parentNode.appendChild(newElement);parentNode.removeChild(element);}
+                  }
+                  // update number of entries
+                  element = document.getElementById('channel-entry-count');
+                  if (null !== element) {
+                    oldValue = parseInt(element.innerText);
+                    // last.json will return -1 when there are no entries in the channel
+                    if (data == -1){
+                      // If the old value was >0 and we got a -1, then channel was cleared in another tab
+                      if (oldValue > 0) {
+                        // channel was cleared. reload page
+                        location.reload();
+                      }
+                    }
+                    // Update the entry_id with the entry_id we get back from the call
+                    else {
+                      if (undefined !== data.entry_id) {
+                        // Entry_id for a field's last.json may be less than entry_id of the feed of the channel. Assuming the largest value is the correct one.
+                        if (parseInt(data.entry_id) > oldValue) {element.innerText = data.entry_id;}
+                      }
+                    }
+                  }
+               }
+            });
+        },15000);
+      }
+      updateChannelInfo();
+      
+//]]>
+</script>
+  
+
+    <br>
+    <script type="text/javascript" src="./GPS - ThingSpeak IoT_files/Sortable.min.js.download" integrity="sha384-cGoVZug22kU0KaYbL6jI8BRsGIAXIYe00lYKPHCwEqD9gwUjxaOBG3X/4mjG6xau" crossorigin="anonymous"></script>
+
+<div class="row">
+  <div class="col-12 col-md-12">
+    <div id="windows_container">
+        <script src="./GPS - ThingSpeak IoT_files/widget-425f7cbff6ae2fb624411ee9ad8ba83d43f33db47ff1cbf968cb008a4e22304f.js.download" data-turbolinks-track="reload"></script>
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+
+
+
+<div id="window_iframe_modal_17513954" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="iframe_modal_close_17513954" type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>         
+        <h4 class="modal-title">Field 1 Chart&nbsp;IFrame</h4>
+      </div>
+      <div class="modal-body">
+        <div id="iframe_modal_content_body_17513954">
+          <pre id="iframe_modal_pre_17513954">&lt;iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3297804/charts/1?bgcolor=%23ffffff&amp;color=%23d62020&amp;dynamic=true&amp;results=60&amp;type=line&amp;update=15"&gt;&lt;/iframe&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="window_options_modal_17513954" class="modal" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Field 1 Chart&nbsp;Options</h4>
+        <div class="d-flex justify-content-end">
+          <a href="https://www.mathworks.com/help/thingspeak/createchart.html" target="_blank" class="close">
+            <i class="fa fa-question float-end widget-info" aria-hidden="true"></i>
+</a>          <button id="options_modal_close_17513954" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="options_modal_content_body_17513954">
+          <div class="row mb-3">
+  <div class="col-6">
+    <table>
+      <tbody><tr>
+        <td>
+          Title:</td>
+        <td>
+          <input type="text" name="options[title]" id="options_title" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          X-Axis:</td>
+        <td>
+          <input type="text" name="options[xaxis]" id="options_xaxis" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis:</td>
+        <td>
+          <input type="text" name="options[yaxis]" id="options_yaxis" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Color:</td>
+        <td>
+          <input type="text" name="options[color]" id="options_color" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Background:</td>
+        <td>
+          <input type="text" name="options[bgcolor]" id="options_bgcolor" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Type:</td>
+        <td>
+          <select name="options[type]" id="options_type" class="form-select"><option value="line">line</option>
+<option value="bar">bar</option>
+<option value="column">column</option>
+<option value="spline">spline</option>
+<option value="step">step</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Dynamic?:</td>
+        <td>
+          <select name="options[dynamic]" id="options_dynamic" class="form-select"><option value="true">true</option>
+<option value="false">false</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Days:</td>
+        <td>
+          <input type="text" name="options[days]" id="options_days" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Results:</td>
+        <td>
+          <input type="text" name="options[results]" id="options_results" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <table>
+      <tbody><tr>
+        <td>
+          Timescale:</td>
+        <td>
+          <select name="options[timescale]" id="options_timescale" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Average:</td>
+        <td>
+          <select name="options[average]" id="options_average" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Median:</td>
+        <td>
+          <select name="options[median]" id="options_median" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Sum:</td>
+        <td>
+          <select name="options[sum]" id="options_sum" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Rounding:</td>
+        <td>
+          <input type="text" name="options[round]" id="options_round" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Data Min: </td>
+        <td>
+          <input type="text" name="options[min]" id="options_min" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Data Max: </td>
+        <td>
+          <input type="text" name="options[max]" id="options_max" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis Min: </td>
+        <td>
+          <input type="text" name="options[yaxismin]" id="options_yaxismin" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis Max: </td>
+        <td>
+          <input type="text" name="options[yaxismax]" id="options_yaxismax" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button id="window_options_modal_save_17513954" type="button" class="btn btn-primary">Save</button>
+        <button id="window_options_modal_cancel_17513954" type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <script src="./GPS - ThingSpeak IoT_files/widget-425f7cbff6ae2fb624411ee9ad8ba83d43f33db47ff1cbf968cb008a4e22304f.js.download" data-turbolinks-track="reload"></script>
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+
+
+
+<div id="window_iframe_modal_17513955" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="iframe_modal_close_17513955" type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>         
+        <h4 class="modal-title">Field 2 Chart&nbsp;IFrame</h4>
+      </div>
+      <div class="modal-body">
+        <div id="iframe_modal_content_body_17513955">
+          <pre id="iframe_modal_pre_17513955">&lt;iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3297804/charts/2?bgcolor=%23ffffff&amp;color=%23d62020&amp;dynamic=true&amp;results=60&amp;type=line&amp;update=15"&gt;&lt;/iframe&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="window_options_modal_17513955" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Field 2 Chart&nbsp;Options</h4>
+        <div class="d-flex justify-content-end">
+          <a href="https://www.mathworks.com/help/thingspeak/createchart.html" target="_blank" class="close">
+            <i class="fa fa-question float-end widget-info" aria-hidden="true"></i>
+</a>          <button id="options_modal_close_17513955" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="options_modal_content_body_17513955">
+          <div class="row mb-3">
+  <div class="col-6">
+    <table>
+      <tbody><tr>
+        <td>
+          Title:</td>
+        <td>
+          <input type="text" name="options[title]" id="options_title" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          X-Axis:</td>
+        <td>
+          <input type="text" name="options[xaxis]" id="options_xaxis" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis:</td>
+        <td>
+          <input type="text" name="options[yaxis]" id="options_yaxis" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Color:</td>
+        <td>
+          <input type="text" name="options[color]" id="options_color" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Background:</td>
+        <td>
+          <input type="text" name="options[bgcolor]" id="options_bgcolor" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Type:</td>
+        <td>
+          <select name="options[type]" id="options_type" class="form-select"><option value="line">line</option>
+<option value="bar">bar</option>
+<option value="column">column</option>
+<option value="spline">spline</option>
+<option value="step">step</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Dynamic?:</td>
+        <td>
+          <select name="options[dynamic]" id="options_dynamic" class="form-select"><option value="true">true</option>
+<option value="false">false</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Days:</td>
+        <td>
+          <input type="text" name="options[days]" id="options_days" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Results:</td>
+        <td>
+          <input type="text" name="options[results]" id="options_results" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <table>
+      <tbody><tr>
+        <td>
+          Timescale:</td>
+        <td>
+          <select name="options[timescale]" id="options_timescale" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Average:</td>
+        <td>
+          <select name="options[average]" id="options_average" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Median:</td>
+        <td>
+          <select name="options[median]" id="options_median" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Sum:</td>
+        <td>
+          <select name="options[sum]" id="options_sum" class="mutuallyexclusive form-select"><option value="" label=" "></option><option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="240">240</option>
+<option value="720">720</option>
+<option value="1440">1440</option>
+<option value="daily">daily</option></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Rounding:</td>
+        <td>
+          <input type="text" name="options[round]" id="options_round" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Data Min: </td>
+        <td>
+          <input type="text" name="options[min]" id="options_min" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Data Max: </td>
+        <td>
+          <input type="text" name="options[max]" id="options_max" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis Min: </td>
+        <td>
+          <input type="text" name="options[yaxismin]" id="options_yaxismin" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y-Axis Max: </td>
+        <td>
+          <input type="text" name="options[yaxismax]" id="options_yaxismax" value="" class="form-control" maxlength="80">
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+</div>
+
+        </div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button id="window_options_modal_save_17513955" type="button" class="btn btn-primary">Save</button>
+        <button id="window_options_modal_cancel_17513955" type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <script src="./GPS - ThingSpeak IoT_files/widget-425f7cbff6ae2fb624411ee9ad8ba83d43f33db47ff1cbf968cb008a4e22304f.js.download" data-turbolinks-track="reload"></script>
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+
+<div id="window_17513969" class="window-container">
+  <div title="Channel Location" class="window-header">  
+    <div class="window-title">Channel Location</div>
+    <div id="controls" class="window-controls">
+        <div id="remove_window_17513969" class="window-icon"><i class="fa fa-times fa-lg"></i></div>
+      <div id="iframe_modal_open_17513969" title="Channel Location IFrame" class="window-icon" data-bs-toggle="modal" data-bs-target="#window_iframe_modal_17513969"><i class="fa fa-comment-o fa-lg"></i></div>
+      <div style="padding-top: 2px;">
+        <a target="_blank" class="chart-header" id="chart_page_17513969" href="https://thingspeak.mathworks.com/channels/3297804/maps/channel_show">
+          <i class="fa fa-external-link fa-lg"></i>
+</a>      </div>
+    </div>
+  </div>
+  <div class="window-content">
+    <iframe id="window_iframe_17513969" class="window-iframe" src="./GPS - ThingSpeak IoT_files/channel_show.html"></iframe>
+  </div>
+</div>
+
+<div id="window_iframe_modal_17513969" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="iframe_modal_close_17513969" type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>         
+        <h4 class="modal-title">Channel Location&nbsp;IFrame</h4>
+      </div>
+      <div class="modal-body">
+        <div id="iframe_modal_content_body_17513969">
+          <pre id="iframe_modal_pre_17513969">&lt;iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3297804/maps/channel_show"&gt;&lt;/iframe&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+
+<div id="window_17513975" class="window-container" draggable="false">
+  <div title="Field 1 Numeric Display" class="window-header">  
+    <div class="window-title">Field 1 Numeric Display</div>
+    <div id="controls" class="window-controls">
+        <div id="remove_window_17513975" class="window-icon"><i class="fa fa-times fa-lg"></i></div>
+          <div id="widget_options_modal_open_17513975" title="Field 1 Numeric Display Options" class="window-icon" data-bs-toggle="modal" data-bs-target="#window_widget_options_modal_17513975"><i class="fa fa-pencil fa-lg"></i>
+          </div>
+      <div id="iframe_modal_open_17513975" title="Field 1 Numeric Display IFrame" class="window-icon" data-bs-toggle="modal" data-bs-target="#window_iframe_modal_17513975"><i class="fa fa-comment-o fa-lg"></i></div>
+      <div style="padding-top: 2px;">
+        <a target="_blank" class="chart-header" id="chart_page_17513975" href="https://thingspeak.mathworks.com/channels/3297804/widgets/1230794" draggable="false">
+          <i class="fa fa-external-link fa-lg"></i>
+</a>      </div>
+    </div>
+  </div>
+  <div class="window-content">
+    <iframe id="window_iframe_17513975" class="window-iframe" src="./GPS - ThingSpeak IoT_files/1230794.html"></iframe>
+  </div>
+</div>
+
+<div id="window_iframe_modal_17513975" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="iframe_modal_close_17513975" type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>         
+        <h4 class="modal-title">Field 1 Numeric Display&nbsp;IFrame</h4>
+      </div>
+      <div class="modal-body">
+        <div id="iframe_modal_content_body_17513975">
+          <pre id="iframe_modal_pre_17513975">&lt;iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3297804/widgets/1230794"&gt;&lt;/iframe&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="window_widget_options_modal_17513975" class="modal" data-turbolinks="false" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Field 1 Numeric Display&nbsp;Options</h4>
+        <div class="d-flex justify-content-end">
+          <a href="https://www.mathworks.com/help/thingspeak/channel_display_widgets.html" target="_blank" class="close">
+            <i class="fa fa-question float-end widget-info" aria-hidden="true"></i>
+</a>          <button id="options_modal_close_17513975" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="gauge_min_max_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="gauge_min_max_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="min_max_error_span">Max Value should be greater than Min Value</span>
+</div>
+
+<div id="units_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="units_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="units_error_span">Numbers not supported in units field.</span>
+</div>
+        <div id="widget_options_modal_content_body_17513975"><div id="widget_type_metadata_17513975" style="display: none;">1</div><table id="widget_params_config_17513975"><tbody><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Name</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" maxlength="80" placeholder="Enter Name for the widget " type="text" id="name_17513975" name="name" value="Field 1 Numeric Display"> </td><td class="widget-table-cells"> &nbsp; </td></tr><tr><td class="widget-table-cells widget-form-label"> <label class="col-form-label">Field</label></td><td colspan="2" class="widget-table-cells"> <select class="form-select" id="field_17513975" name="field"> <option value="Field 1" selected=""> Field 1 </option>  <option value="Field 2"> Field 2 </option> </select></td></tr><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Update Interval</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" placeholder=" " type="number" oninput="validity.valid||(value=15)" min="15" id="update_interval_17513975" name="update_interval" value="15"> </td><td class="widget-table-cells"> &nbsp; second(s)</td></tr><tr><td class="widget-form-label widget-table-cells"> <label class="col-form-label">Units</label></td><td colspan="2" class="widget-table-cells"><input class="form-control" undefined="" placeholder="Enter Measurement Units " type="text" id="units_17513975" name="units" value=""> </td><td class="widget-table-cells"> &nbsp; </td></tr><tr><td class="widget-form-label widget-table-cells">  <label class="col-form-label">Data Type </label></td><td><input style="margin-right:4px;" class="radio-control" id="data_type_integer_17513975" type="radio" name="data_type_integer_17513975" onclick="disableScaleAndSelectInteger(17513975)" value="Integer">Integer</td><td><input style="margin-right:4px;" class="radio-control" id="data_type_decimal_17513975" type="radio" name="data_type_decimal_17513975" onclick="enableScaleAndSelectDecimal(17513975)" value="Decimal">Decimal</td><td><select class="form-select" '="" id="data_type_select_17513975" name="data_type_select_17513975"><option value="1" selected=""> 1 </option><option value="2"> 2 </option><option value="3"> 3 </option><option value="4"> 4 </option><option value="5"> 5 </option></select></td><td style="font-size: 14px;"><p style="margin-left: 4px; color: black;" id="data_type_selectText_17513975" name="data_type_selectText_17513975"> (# of places)</p></td></tr></tbody></table></div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button id="window_widget_options_modal_save_17513975" data-bs-dismiss="modal" type="button" class="btn btn-primary">Save</button>
+        <button id="window__widget_options_modal_cancel_17513975" type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="./GPS - ThingSpeak IoT_files/widget-2d0158ca6696326141c506525b83a218d479d5cd051420d704835dbfef7b26d7.css" media="screen">
+
+<div id="window_17513976" class="window-container">
+  <div title="Field 2 Numeric Display" class="window-header">  
+    <div class="window-title">Field 2 Numeric Display</div>
+    <div id="controls" class="window-controls">
+        <div id="remove_window_17513976" class="window-icon"><i class="fa fa-times fa-lg"></i></div>
+          <div id="widget_options_modal_open_17513976" title="Field 2 Numeric Display Options" class="window-icon" data-bs-toggle="modal" data-bs-target="#window_widget_options_modal_17513976"><i class="fa fa-pencil fa-lg"></i>
+          </div>
+      <div id="iframe_modal_open_17513976" title="Field 2 Numeric Display IFrame" class="window-icon" data-bs-toggle="modal" data-bs-target="#window_iframe_modal_17513976"><i class="fa fa-comment-o fa-lg"></i></div>
+      <div style="padding-top: 2px;">
+        <a target="_blank" class="chart-header" id="chart_page_17513976" href="https://thingspeak.mathworks.com/channels/3297804/widgets/1230795">
+          <i class="fa fa-external-link fa-lg"></i>
+</a>      </div>
+    </div>
+  </div>
+  <div class="window-content">
+    <iframe id="window_iframe_17513976" class="window-iframe" src="./GPS - ThingSpeak IoT_files/1230795.html"></iframe>
+  </div>
+</div>
+
+<div id="window_iframe_modal_17513976" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="iframe_modal_close_17513976" type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>         
+        <h4 class="modal-title">Field 2 Numeric Display&nbsp;IFrame</h4>
+      </div>
+      <div class="modal-body">
+        <div id="iframe_modal_content_body_17513976">
+          <pre id="iframe_modal_pre_17513976">&lt;iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3297804/widgets/1230795"&gt;&lt;/iframe&gt;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="window_widget_options_modal_17513976" class="modal" data-turbolinks="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Field 2 Numeric Display&nbsp;Options</h4>
+        <div class="d-flex justify-content-end">
+          <a href="https://www.mathworks.com/help/thingspeak/channel_display_widgets.html" target="_blank" class="close">
+            <i class="fa fa-question float-end widget-info" aria-hidden="true"></i>
+</a>          <button id="options_modal_close_17513976" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="gauge_min_max_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="gauge_min_max_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="min_max_error_span">Max Value should be greater than Min Value</span>
+</div>
+
+<div id="units_error" class="alert alert-danger alert-dismissable error_banner" style="display:none; clear:both">
+  <span id="units_error_close" class="dismiss"><i class="fa fa-close"></i></span>
+  <span id="units_error_span">Numbers not supported in units field.</span>
+</div>
+        <div id="widget_options_modal_content_body_17513976">
+        </div>
+      </div>
+      <div class="modal-footer window-footer">
+        <button id="window_widget_options_modal_save_17513976" data-bs-dismiss="modal" type="button" class="btn btn-primary">Save</button>
+        <button id="window__widget_options_modal_cancel_17513976" type="button" data-bs-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+      <div id="add_visualization_window" class="add_visualization_window" data-bs-toggle="modal" data-bs-target="#add_visualization_modal">
+        <em class="fa fa-plus-square timecontrol_index"></em>&nbsp;Add Visualizations
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function (){
+    window.channel = ThingSpeak.Channel.init({"public_view":false,"current_user_owns":true,"windows":[{"id":17513954,"channel_id":3297804,"position":1,"created_at":"2026-03-12T16:53:09Z","updated_at":"2026-03-12T16:53:09Z","content_type":"chart","public_flag":false,"content_id":1,"options":"bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15","options_json":"{\"bgcolor\":\"#ffffff\",\"color\":\"#d62020\",\"dynamic\":\"true\",\"results\":\"60\",\"type\":\"line\",\"update\":\"15\"}","iframe_html":"\u003ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3297804/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15\"\u003e\u003c/iframe\u003e","iframe_src":"/channels/3297804/charts/1?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15","preview_image_path":"/assets/add_visualization_chart-a41736c2720006799b06e29c3b76d24b02ce64ea9bd73d824af0809474953d02.svg","url":"/channels/3297804/windows/17513954","title":"Field 1 Chart"},{"id":17513955,"channel_id":3297804,"position":2,"created_at":"2026-03-12T16:53:09Z","updated_at":"2026-03-12T16:53:09Z","content_type":"chart","public_flag":false,"content_id":2,"options":"bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15","options_json":"{\"bgcolor\":\"#ffffff\",\"color\":\"#d62020\",\"dynamic\":\"true\",\"results\":\"60\",\"type\":\"line\",\"update\":\"15\"}","iframe_html":"\u003ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3297804/charts/2?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15\"\u003e\u003c/iframe\u003e","iframe_src":"/channels/3297804/charts/2?bgcolor=%23ffffff\u0026color=%23d62020\u0026dynamic=true\u0026results=60\u0026type=line\u0026update=15","preview_image_path":"/assets/add_visualization_chart-a41736c2720006799b06e29c3b76d24b02ce64ea9bd73d824af0809474953d02.svg","url":"/channels/3297804/windows/17513955","title":"Field 2 Chart"},{"id":17513969,"channel_id":3297804,"position":3,"created_at":"2026-03-12T16:59:20Z","updated_at":"2026-03-12T16:59:20Z","content_type":"location","public_flag":false,"content_id":null,"options":null,"options_json":"{}","iframe_html":"\u003ciframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/3297804/maps/channel_show\"\u003e\u003c/iframe\u003e","iframe_src":"/channels/3297804/maps/channel_show","preview_image_path":"/assets/add_visualization_location-dbd2d2628a201e93e2d307c91adedb4d4518a4c6d687f9ea5d602424572e0efd.svg","url":"/channels/3297804/windows/17513969","title":"Channel Location"}],"channel":{"id":3297804,"user_id":1749370,"name":"GPS","description":"GPS module information","latitude":"0.0","longitude":"0.0","field1":"Coordinates view","field2":"Map view","field3":null,"field4":null,"field5":null,"field6":null,"field7":null,"field8":null,"scale1":null,"scale2":null,"scale3":null,"scale4":null,"scale5":null,"scale6":null,"scale7":null,"scale8":null,"created_at":"2026-03-12T16:53:09Z","updated_at":"2026-03-12T16:59:20Z","elevation":"","last_entry_id":null,"public_flag":false,"options1":null,"options2":null,"options3":null,"options4":null,"options5":null,"options6":null,"options7":null,"options8":null,"status":null,"url":null,"video_id":null,"video_type":"youtube","clearing":false,"ranking":50,"user_agent":null,"realtime_io_serial_number":null,"metadata":"","last_write_at":null,"batch_updated_at":null,"show_location":true,"show_video":false,"show_status":false,"license_id":0,"is_updating":null,"is_privately_shared_flag":false,"github_url":null,"forward_to_mqtt":false}});
+  })
+</script>
+
+  </div>
+</div>
+<script type="text/javascript" src="./GPS - ThingSpeak IoT_files/moment.min.js.download" integrity="sha384-KIix3a0qkeD2RPwPvpkJ+Knc91vkmDI+i2c7phIO+EfV3dpfDXIGSqQjpIaJXlR9" crossorigin="anonymous"></script>
+<script>
+//<![CDATA[
+var meter_data = {"licenses":[{"id":8408059,"license_id":-1749370,"licensed_prod_id":-1749370,"qty":1,"start_date":"2026-03-12","end_date":"2027-03-11","offering_id":0,"created_at":"2026-03-12T16:44:12.000Z","updated_at":"2026-03-12T16:44:12.000Z","service_date_id":null,"messages_remaining":3000000,"messages_allowed":3000000}],"domain":"https://thingspeak.mathworks.com/","messages_per_paid_unit":"33000000","free_messages_per_year":"3000000","license_center_link":"https://www.mathworks.com/licensecenter/licenses/:lid","user_type":0,"is_free_user":true,"free_license_id":-1749370,"license_type":"Free"}
+//]]>
+</script>
+<script type="text/javascript">
+ if( meter_data !== null )
+  {
+  	loadMeterData(meter_data);
+  } 
+</script>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+var cookieBanner = {
+  /* Hide the cookie banner if it was accepted in the last year */
+  showIfNotAccepted: function(){
+    if ( localStorage ) {
+      lastCookieNotificationAcceptedDate = parseInt(localStorage.getItem('tspk-cookie-banner'));
+      /* 31536000000 is the number of milliseconds since 365 days ago */
+      if (  isNaN(lastCookieNotificationAcceptedDate) || ( lastCookieNotificationAcceptedDate < ((new Date).getTime() - 31536000000) ) ){
+        $("#cookie-banner").show();
+      } else {
+        $("#cookie-banner").hide();
+      }
+    }
+  },
+  /* Store time when the cookie notification was accepted in the browser local storage for this site */
+  setAcceptanceTime: function() {
+    if ( localStorage ) {
+      localStorage.setItem('tspk-cookie-banner',(new Date).getTime());
+      cookieBanner.showIfNotAccepted();
+    }
+  }
+};
+</script>
+
+<div id="cookie-banner" class="cookie-alert-warning" style="display: block;">
+  <script type="text/javascript">cookieBanner.showIfNotAccepted();</script>
+  <div id="cookie-icon" class="text-end"><span class="fa fa-exclamation-triangle"></span></div>
+  <div id="cookie-text"><p>This website uses cookies to improve your user experience, personalize content and ads, and analyze website traffic. By continuing to use this website, you consent to our use of cookies. Please see our <a target="_blank" rel="noopener noreferrer" style="font-size: small" href="https://www.mathworks.com/company/aboutus/policies_statements.html">Privacy Policy</a> to learn more about cookies and how to change your settings.</p></div>
+  <div id="cookie-remove"><span class="fa fa-times" onclick="cookieBanner.setAcceptanceTime();return false;"></span></div>
+</div>
+    <div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-7">
+        <span class="d-none d-md-block d-flex text-md-center justify-content-md-center">
+          <a href="https://blogs.mathworks.com/iot/" title="IoT Blog" target="_blank" rel="noopener noreferrer">Blog</a> |
+          <a href="https://www.mathworks.com/help/thingspeak/" title="ThingSpeak Documentation" target="_blank" rel="noopener noreferrer">Documentation</a> |
+          <a href="https://www.mathworks.com/help/thingspeak/getting-started-with-thingspeak.html" title="ThingSpeak Tutorials" target="_blank" rel="noopener noreferrer">Tutorials</a> |
+          <a target="_blank" rel="noopener noreferrer" href="https://www.mathworks.com/company/aboutus/policies_statements/online-services-agreement.html">Terms</a> |
+          <a target="_blank" rel="noopener noreferrer" href="https://www.mathworks.com/company/aboutus/policies_statements.html">Privacy Policy</a>
+        </span>
+      </div>
+      <div class="col-12 col-md-5">
+        <span class="d-flex text-center justify-content-center text-md-end justify-content-md-end">
+          <a alt="Facebook" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/thingspeak"><img src="./GPS - ThingSpeak IoT_files/ico-facebook-864217e7723b63bd8687c81e99e677c0a1efba1db6282794f4077f3d6d5cae86.svg" width="16" height="16"></a>
+          <a alt="Twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/thingspeak"><img src="./GPS - ThingSpeak IoT_files/ico-twitter-502ca920ad71f398928c9ec00203b98655f8b1ba821b95f4cf11b4eef72b6d4b.svg" width="16" height="16"></a>
+          <a alt="RSS" target="_blank" rel="noopener noreferrer" href="http://feeds.feedburner.com/internetofthings"><img src="./GPS - ThingSpeak IoT_files/ico-rss-349a27d6441a574f9218ee6e808d147dc5566204c79d967cf90b33b0bd026171.svg" width="16" height="16"></a>
+          &nbsp;©&nbsp;2026&nbsp;<a href="https://www.mathworks.com/" target="_blank" rel="noopener noreferrer">The MathWorks, Inc.</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="confirmation-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirm</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-default" type="button" data-bs-dismiss="modal">Cancel</button>
+        <button id="confirmation-modal-ok" class="btn btn-sm btn-primary" type="button" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script type="text/javascript">_satellite.pageBottom();</script>
+  
+<style>body.tablesorter-disableSelection { -ms-user-select: none; -moz-user-select: -moz-none;-khtml-user-select: none; -webkit-user-select: none; user-select: none; }.tablesorter-resizable-container { position: relative; height: 1px; }.tablesorter-resizable-handle { position: absolute; display: inline-block; width: 8px;top: 1px; cursor: ew-resize; z-index: 3; user-select: none; -moz-user-select: none; }</style><iframe id="qualaroo_dnt_frame" src="./GPS - ThingSpeak IoT_files/frame.html" title="Qualaroo iframe for nudge" style="width: 1px; height: 1px; display: none; opacity: 0;"></iframe></body></html>

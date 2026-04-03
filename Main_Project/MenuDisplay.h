@@ -10,7 +10,7 @@
 enum PageState {
     PAGE_MENU = 0,
     PAGE_SNIFFER = 1,
-    PAGE_JAM = 2,
+    // PAGE_JAM = 2,  // Commented out pending legal research
     PAGE_SENSOR = 3,
     PAGE_GPS = 4
 };
@@ -26,7 +26,7 @@ public:
     void drawBackButton();
 
     void showPacketSnifferPage();
-    void showStrawberryJamPage();
+    // void showStrawberryJamPage();  // Commented out pending legal research
     void showWirelessSensorPage();
     void showGPSPage();
 

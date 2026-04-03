@@ -1,9 +1,14 @@
 #ifndef HEATMAP_DISPLAY_H
 #define HEATMAP_DISPLAY_H
 
-#include "MenuDisplay.h" 
+#include "MenuDisplay.h"
 #include <TFT_eSPI.h>
 #include "WiFiSniffer.h"
+
+struct DeviceInfo {
+    int rssi;
+    char ssid[33];
+};
 
 class HeatmapDisplay {
 public:
@@ -15,11 +20,6 @@ private:
     TFT_eSPI tft;
 
     int mapRSSIToColor(int rssi);
-};
-
-class HeatmapDisplay {
-public:
-    void update(DeviceInfo device); // now DeviceInfo is known
 };
 
 #endif
