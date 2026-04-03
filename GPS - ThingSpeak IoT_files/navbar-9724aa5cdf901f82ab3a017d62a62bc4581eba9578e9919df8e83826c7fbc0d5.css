@@ -1,0 +1,96 @@
+/*
+This file contains css specific to navbar. Some styles that are used in navbar,
+but also applies to other parts of the ThingSpeak application, are listed in custom.css.erb
+*/
+.ts-navbar { 
+  background-color: rgb(47, 126, 178); 
+  border-color: rgba(47, 126, 178, 0.32);
+  padding-bottom: 0rem;
+  padding-top: 0rem;
+}
+
+/* navbar override */
+
+.ts-navbar .navbar-nav > li > a {
+  color: #ffffff;
+  text-decoration: none;
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .user-nav {
+    padding-top: 0.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .ts-navbar .navbar-nav > li > a { 
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+}
+
+.ts-navbar .navbar-nav > li:hover,
+.ts-navbar .navbar-nav > li:focus {
+  background-color: #1C4C6B;
+  line-height: 1.25rem;
+}
+
+.sign-in-nav > ul:focus {
+  background-color: #1C4C6B;
+}
+
+.navbar-collapse {
+  padding-left: 0.9375rem;
+}
+
+#nav-channels-after > a {
+  background-color: #1C4C6B;
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    border-top: 0.01rem solid #ffffff;
+    padding: 1rem;
+  }
+}
+
+#user-gravatar {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 992px) {
+  .sign-in-name {
+    display:none;
+  }
+  .sign-in-label {
+    display:none;
+  }
+  #sign_in {
+    padding: 0.3rem;
+  }
+  .user-nav {
+    padding-left: 0.4rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .sign-in-label {
+    margin-left:0.3rem;
+  }
+  .sign-in-display {
+    display:inline-block;
+    margin-left:3px;
+  }
+  .user-img {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.user-image {
+  border-radius: 50%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

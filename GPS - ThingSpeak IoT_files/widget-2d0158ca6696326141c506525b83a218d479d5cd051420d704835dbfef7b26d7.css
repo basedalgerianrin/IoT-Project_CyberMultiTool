@@ -1,0 +1,42 @@
+.form-control[type='checkbox'] {
+  width: auto !important;
+  height: auto !important;
+}
+
+.form-control[type='color'] {
+  width: 7vh;
+}
+
+.widget-form-label {
+  text-align: right;
+  padding: 10px;
+}
+
+.widget-table-cells {
+  padding-bottom: 5px;
+}
+
+.widget-info {
+  color: #808080;
+}
+
+.fa-mid-align {
+  display: table;
+  margin: 0 auto;
+}
+
+.metadata {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.widgetErrorBanner {
+  z-index: 5000;
+  position: fixed;
+  width:100%;
+}
+
+.chartError {
+  opacity: 0.5;
+}

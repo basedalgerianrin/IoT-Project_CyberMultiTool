@@ -29,8 +29,8 @@ void MenuDisplay::drawMenu() {
     tft.drawRect(20, 60, 200, 40, TFT_WHITE);
     tft.drawString("Packet Sniffer", 40, 70, 2);
 
-    tft.drawRect(20, 120, 200, 40, TFT_WHITE);
-    tft.drawString("Strawberry Jam", 40, 130, 2);
+    // tft.drawRect(20, 120, 200, 40, TFT_WHITE);       // Commented out pending legal research
+    // tft.drawString("Strawberry Jam", 40, 130, 2);    // Commented out pending legal research
 
     tft.drawRect(20, 180, 200, 40, TFT_WHITE);
     tft.drawString("Wireless Sensor", 40, 190, 2);
@@ -68,7 +68,7 @@ PageState MenuDisplay::checkTouch() {
 
     if (x > X_MIN && x < X_MAX) {
         if (y > 60 && y < 100) return PAGE_SNIFFER;
-        if (y > 120 && y < 160) return PAGE_JAM;
+        // if (y > 120 && y < 160) return PAGE_JAM;  // Commented out pending legal research
         if (y > 180 && y < 220) return PAGE_SENSOR;
         if (y > 240 && y < 280) return PAGE_GPS;
     }
@@ -83,11 +83,11 @@ void MenuDisplay::showPacketSnifferPage() {
     drawBackButton();
 }
 
-void MenuDisplay::showStrawberryJamPage() {
-    tft.fillScreen(TFT_BLACK);
-    tft.drawString("STRAWBERRY JAM", 30, 20, 4);
-    drawBackButton();
-}
+// void MenuDisplay::showStrawberryJamPage() {  // Commented out pending legal research
+//     tft.fillScreen(TFT_BLACK);
+//     tft.drawString("STRAWBERRY JAM", 30, 20, 4);
+//     drawBackButton();
+// }
 
 void MenuDisplay::showWirelessSensorPage() {
     tft.fillScreen(TFT_BLACK);

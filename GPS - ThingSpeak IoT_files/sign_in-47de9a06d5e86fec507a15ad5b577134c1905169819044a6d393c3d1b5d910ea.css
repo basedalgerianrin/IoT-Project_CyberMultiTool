@@ -1,0 +1,36 @@
+/* CSS for sign-in button position on different screens */
+.sign-in-form {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 992px) {
+  .sign-in-form, 
+  .sign-up-image {
+    justify-content: center;
+    position: relative;
+  }
+
+  .sign-in-form {
+    position: relative;
+    left: -5%;
+  }
+
+  .sign-up-image {
+    position: relative;
+    left: -4%;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .sign-in-form {
+    justify-content: start;
+  }
+
+  .sign-in-form, 
+  .signInButton {
+    position: static;
+    left: auto;
+  }
+}
