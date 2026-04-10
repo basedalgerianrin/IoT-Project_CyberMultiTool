@@ -12,10 +12,36 @@ void GPSReader::update() {
     while (Serial2.available()) {
         _gps.encode(Serial2.read());
     }
+
+    // if (millis() - _lastPrint >= 1000) {  // Commented out — flooding Serial, hiding IP
+    //     _lastPrint = millis();
+    //     printStatus();
+    // }
 }
 
 void GPSReader::printStatus() {
     Serial.println(F("--- GPS Status ---"));
+
+    // Diagnostic: chars processed tells us if wiring is working at all
+    Serial.print(F("Chars received: "));
+    Serial.println(_gps.charsProcessed());
+
+    if (_gps.charsProcessed() < 10) {
+        Serial.println(F("WARNING: No data from GPS. Check wiring - is RX/TX swapped?"));
+        Serial.println(F("  GPS TX -> ESP32 GPIO 16 (RX2)"));
+        Serial.println(F("  GPS RX -> ESP32 GPIO 17 (TX2)"));
+        return;
+    }
+
+    Serial.print(F("Sentences with fix: "));
+    Serial.println(_gps.sentencesWithFix());
+
+    if (_gps.failedChecksum() > 0) {
+        Serial.print(F("WARNING: Failed checksums: "));
+        Serial.println(_gps.failedChecksum());
+        Serial.println(F("Possible baud rate mismatch or noisy wiring."));
+    }
+
     printLocation();
     printAltitude();
     printSpeed();
