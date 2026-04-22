@@ -96,6 +96,7 @@ private:
     bool _running;
     JamMode _mode;
     uint8_t _currentChannel;
+    uint8_t _bleHopIndex;
     unsigned long _packetsSent;
 
     // nRF24L01 raw register access

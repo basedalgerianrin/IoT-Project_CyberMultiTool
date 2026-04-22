@@ -30,7 +30,6 @@ private:
 
     WebServer _server;
 
-    void handleRoot();
     void handleSniffer();
     void handleSensor();
     void handleGPS();

@@ -6,6 +6,16 @@ GPSReader::GPSReader(int rxPin, int txPin, int baudrate)
 
 void GPSReader::begin() {
     Serial2.begin(_baudrate, SERIAL_8N1, _rxPin, _txPin);
+
+    // Sync time via NTP (fallback when GPS has no satellite fix)
+    configTime(GPS_UTC_OFFSET_SEC, 0, "pool.ntp.org", "time.google.com");
+    Serial.print(F("[GPS] Syncing NTP time..."));
+    struct tm t;
+    if (getLocalTime(&t, 5000)) {
+        Serial.println(F(" OK"));
+    } else {
+        Serial.println(F(" failed (no WiFi?)"));
+    }
 }
 
 void GPSReader::update() {
@@ -91,38 +101,64 @@ void GPSReader::printDateTime() {
         Serial.print(_gps.time.hour());
         Serial.print(F(":"));
         Serial.print(_gps.time.minute());
-        Serial.println(F(" UTC"));
+        Serial.println(F(" UTC (GPS)"));
     } else {
-        Serial.println(F("Date/Time: Invalid"));
+        struct tm t;
+        if (getLocalTime(&t, 0)) {
+            Serial.print(F("Date/Time: "));
+            Serial.print(t.tm_mday);
+            Serial.print(F("/"));
+            Serial.print(t.tm_mon + 1);
+            Serial.print(F("/"));
+            Serial.print(t.tm_year + 1900);
+            Serial.print(F(" "));
+            Serial.print(t.tm_hour);
+            Serial.print(F(":"));
+            Serial.print(t.tm_min);
+            Serial.println(F(" IST (NTP)"));
+        } else {
+            Serial.println(F("Date/Time: No fix / No NTP"));
+        }
     }
 }
 
 // --- Getter methods ---
-float GPSReader::getLatitude() {
-    return _gps.location.isValid() ? _gps.location.lat() : 0;
+double GPSReader::getLatitude() {
+    return _gps.location.isValid() ? _gps.location.lat() : 0.0;
 }
 
-float GPSReader::getLongitude() {
-    return _gps.location.isValid() ? _gps.location.lng() : 0;
+double GPSReader::getLongitude() {
+    return _gps.location.isValid() ? _gps.location.lng() : 0.0;
 }
 
-float GPSReader::getAltitude() {
-    return _gps.altitude.isValid() ? _gps.altitude.meters() : 0;
+double GPSReader::getAltitude() {
+    return _gps.altitude.isValid() ? _gps.altitude.meters() : 0.0;
 }
 
-float GPSReader::getSpeed() {
-    return _gps.speed.isValid() ? _gps.speed.kmph() : 0;
+double GPSReader::getSpeed() {
+    return _gps.speed.isValid() ? _gps.speed.kmph() : 0.0;
 }
 
 String GPSReader::getDateTime() {
     if (_gps.date.isValid() && _gps.time.isValid()) {
-        return String(_gps.date.day()) + "/" +
-               String(_gps.date.month()) + "/" +
-               String(_gps.date.year()) + " " +
-               String(_gps.time.hour()) + ":" +
-               String(_gps.time.minute());
+        char buf[20];
+        snprintf(buf, sizeof(buf), "%02d/%02d/%04d %02d:%02d",
+                 _gps.date.day(), _gps.date.month(), _gps.date.year(),
+                 _gps.time.hour(), _gps.time.minute());
+        return String(buf);
     }
-    return "Invalid";
+
+    // Fallback: use NTP time when GPS has no fix
+    struct tm t;
+    if (getLocalTime(&t, 0)) {
+        char buf[24];
+        snprintf(buf, sizeof(buf), "%02d/%02d/%04d %02d:%02d",
+                 t.tm_mday, t.tm_mon + 1, t.tm_year + 1900,
+                 t.tm_hour, t.tm_min);
+        return String(buf) + " (NTP)";
+    }
+
+    return "No fix / No NTP";
 }
 
 

@@ -91,9 +91,11 @@ void WiFiSniffer::begin() {
 // ─── Reset everything ────────────────────────────────────────────────────────
 
 void WiFiSniffer::resetCounters() {
+    taskENTER_CRITICAL(&_mux);
     _total = _beacons = _deauths = _probeReqs = _probeResps = _dataPkts = 0;
     _logIndex = _logCount = 0;
     _deviceCount = 0;
+    taskEXIT_CRITICAL(&_mux);
 }
 
 // ─── Getters for summary dashboard ──────────────────────────────────────────
@@ -221,20 +223,19 @@ DeviceStats WiFiSniffer::getDevice(int index) {
 //    OUI alone isn't enough (Espressif makes smart bulbs too), so we require
 //    at least some data traffic.
 
+bool WiFiSniffer::isDeviceSuspicious(const DeviceStats& d) {
+    if (d.totalPkts >= SUSPECT_MIN_PACKETS) {
+        if ((d.dataPkts * 100 / d.totalPkts) >= SUSPECT_DATA_RATIO) return true;
+    }
+    if (d.largePkts >= SUSPECT_BIMODAL_MIN && d.smallPkts >= SUSPECT_BIMODAL_MIN) return true;
+    if (d.knownCamOUI && d.dataPkts > 5) return true;
+    return false;
+}
+
 bool WiFiSniffer::isSuspicious(int index) {
     taskENTER_CRITICAL(&_mux);
     if (index < 0 || index >= _deviceCount) { taskEXIT_CRITICAL(&_mux); return false; }
-
-    const DeviceStats& d = _devices[index];
-    bool sus = false;
-
-    if (d.totalPkts >= SUSPECT_MIN_PACKETS) {
-        int dataPercent = (d.dataPkts * 100) / d.totalPkts;
-        if (dataPercent >= SUSPECT_DATA_RATIO) sus = true;
-    }
-    if (!sus && d.largePkts >= SUSPECT_BIMODAL_MIN && d.smallPkts >= SUSPECT_BIMODAL_MIN) sus = true;
-    if (!sus && d.knownCamOUI && d.dataPkts > 5) sus = true;
-
+    bool sus = isDeviceSuspicious(_devices[index]);
     taskEXIT_CRITICAL(&_mux);
     return sus;
 }
@@ -243,12 +244,7 @@ int WiFiSniffer::getSuspiciousCount() {
     taskENTER_CRITICAL(&_mux);
     int count = 0;
     for (int i = 0; i < _deviceCount; i++) {
-        const DeviceStats& d = _devices[i];
-        bool sus = false;
-        if (d.totalPkts >= SUSPECT_MIN_PACKETS && (d.dataPkts * 100 / d.totalPkts) >= SUSPECT_DATA_RATIO) sus = true;
-        if (d.largePkts >= SUSPECT_BIMODAL_MIN && d.smallPkts >= SUSPECT_BIMODAL_MIN) sus = true;
-        if (d.knownCamOUI && d.dataPkts > 5) sus = true;
-        if (sus) count++;
+        if (isDeviceSuspicious(_devices[i])) count++;
     }
     taskEXIT_CRITICAL(&_mux);
     return count;
@@ -258,15 +254,9 @@ int WiFiSniffer::getStrongestSuspicious() {
     taskENTER_CRITICAL(&_mux);
     int bestIndex = -1;
     int8_t bestRssi = -127;
-
     for (int i = 0; i < _deviceCount; i++) {
-        const DeviceStats& d = _devices[i];
-        bool sus = false;
-        if (d.totalPkts >= SUSPECT_MIN_PACKETS && (d.dataPkts * 100 / d.totalPkts) >= SUSPECT_DATA_RATIO) sus = true;
-        if (d.largePkts >= SUSPECT_BIMODAL_MIN && d.smallPkts >= SUSPECT_BIMODAL_MIN) sus = true;
-        if (d.knownCamOUI && d.dataPkts > 5) sus = true;
-        if (sus && d.rssi > bestRssi) {
-            bestRssi = d.rssi;
+        if (isDeviceSuspicious(_devices[i]) && _devices[i].rssi > bestRssi) {
+            bestRssi = _devices[i].rssi;
             bestIndex = i;
         }
     }

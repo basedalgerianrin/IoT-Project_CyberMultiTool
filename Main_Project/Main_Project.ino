@@ -13,6 +13,12 @@
 #define JAM_REFRESH_MS     500  // How often to refresh the jam display
 #define GPS_REFRESH_MS     2000 // How often to refresh the GPS display
 
+// --- Buzzer (passive piezo on GPIO 2) ---
+#define BUZZER_PIN       2
+#define BUZZER_CHANNEL   0      // LEDC channel (Core 2.x API)
+#define BUZZER_FREQ      3200   // 3.2 kHz — high pitch, loud on small piezos
+#define BUZZER_BEEP_MS   40     // How long each beep lasts (ms)
+
 // --- TFT Menu and Sensors ---
 MenuDisplay menuDisplay;
 WiFiSniffer sniffer(1);             // Fixed channel for packet sniffer
@@ -21,7 +27,7 @@ BlueJam blueJam;                   // Bluetooth jammer (needs nRF24L01 hardware)
 GPSReader gpsReader(16, 17, 9600);  // RX=16, TX=17
 
 // --- Web Server (connects WiFi first, sniffer piggybacks on top) ---
-WebMenuServer webServer("riniPhone", "MadaraUchiha", menuDisplay, sniffer, gpsReader);
+WebMenuServer webServer("riniPhone2", "MadaraUchiha", menuDisplay, sniffer, gpsReader);
 
 // --- Page Management ---
 PageState currentPage = PAGE_MENU;
@@ -31,6 +37,8 @@ unsigned long lastSnifferRefresh = 0;
 unsigned long lastSensorRefresh = 0;
 unsigned long lastJamRefresh = 0;
 unsigned long lastGPSRefresh = 0;
+unsigned long lastBeepTime = 0;
+bool beepOn = false;
 
 void setup() {
     Serial.begin(115200);
@@ -48,6 +56,10 @@ void setup() {
     #endif
     Serial.println(F("Core 2.x = IDF 4.4.x  |  Core 3.x = IDF 5.x"));
     Serial.println(F("========================================"));
+
+    // Buzzer pin setup (Core 2.x LEDC API)
+    ledcSetup(BUZZER_CHANNEL, BUZZER_FREQ, 8);
+    ledcAttachPin(BUZZER_PIN, BUZZER_CHANNEL);
 
     // Run hardware diagnostics FIRST — before any module grabs the pins.
     PinDiagnostic::runAll();
@@ -83,8 +95,10 @@ void loop() {
             lastPressTime = millis();
         } else if (currentPage != PAGE_MENU && newSelection == PAGE_MENU) {
             // Back button pressed — return to menu
-            if (currentPage == PAGE_SENSOR && sniffer.isHopping()) {
-                sniffer.lockChannel(WiFi.channel());
+            if (currentPage == PAGE_SENSOR) {
+                if (sniffer.isHopping()) sniffer.lockChannel(WiFi.channel());
+                ledcWriteTone(BUZZER_CHANNEL, 0);  // Silence buzzer
+                beepOn = false;
             }
             if (currentPage == PAGE_JAM) {
                 if (jam.isRunning()) jam.stopAttack();
@@ -159,15 +173,54 @@ void loop() {
         }
         if (millis() - lastSensorRefresh >= SENSOR_REFRESH_MS) {
             menuDisplay.drawSensorData(sniffer);
+            menuDisplay.drawLockButton(!sniffer.isHopping(), sniffer.getCurrentChannel());
             lastSensorRefresh = millis();
 
+            // Auto-lock onto suspicious device's channel while scanning
             int susIdx = sniffer.getStrongestSuspicious();
             if (susIdx >= 0 && sniffer.isHopping()) {
                 DeviceStats sus = sniffer.getDevice(susIdx);
                 sniffer.lockChannel(sus.channel);
             }
         }
-        sniffer.channelHop();
+
+        // Only hop if not locked
+        if (sniffer.isHopping()) {
+            sniffer.channelHop();
+        }
+
+        // --- Lock/Scan toggle button ---
+        if (menuDisplay.checkLockButton() && millis() - lastPressTime >= COOLDOWN_MS) {
+            if (sniffer.isHopping()) {
+                // Lock to current channel
+                sniffer.lockChannel(sniffer.getCurrentChannel());
+            } else {
+                // Resume scanning
+                sniffer.startHopping();
+            }
+            lastPressTime = millis();
+            lastSensorRefresh = 0;  // force immediate display refresh
+        }
+
+        // --- Buzzer: beep rate scales with proximity ---
+        // Determine beep interval based on strongest suspicious device RSSI
+        unsigned long beepInterval;
+        int susIdx = sniffer.getStrongestSuspicious();
+        if (susIdx >= 0) {
+            int8_t rssi = sniffer.getDevice(susIdx).rssi;
+            if      (rssi > -55) beepInterval = 80;    // HOT  — rapid
+            else if (rssi > -70) beepInterval = 250;   // WARM — fast
+            else if (rssi > -85) beepInterval = 500;   // COOL — moderate
+            else                 beepInterval = 900;   // COLD — slow
+        } else {
+            beepInterval = 1200;  // Scanning, no suspect — slow idle beep
+        }
+
+        if (millis() - lastBeepTime >= (beepOn ? BUZZER_BEEP_MS : beepInterval)) {
+            beepOn = !beepOn;
+            ledcWriteTone(BUZZER_CHANNEL, beepOn ? BUZZER_FREQ : 0);
+            lastBeepTime = millis();
+        }
     }
     else if (currentPage == PAGE_GPS) {
         if (pageNeedsRedraw) {

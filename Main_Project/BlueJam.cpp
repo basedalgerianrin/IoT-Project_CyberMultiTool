@@ -38,7 +38,7 @@ const uint8_t BlueJam::_bleChannels[BLE_NUM_CHANNELS] = {
 
 BlueJam::BlueJam()
     : _hspi(HSPI), _hardwarePresent(false), _running(false),
-      _mode(JAM_OFF), _currentChannel(BT_CHANNEL_START), _packetsSent(0) {}
+      _mode(JAM_OFF), _currentChannel(BT_CHANNEL_START), _bleHopIndex(0), _packetsSent(0) {}
 
 // ─── Initialise the nRF24L01 ────────────────────────────────────────────────
 // Sets up HSPI and configures the radio for maximum disruption:
@@ -124,6 +124,7 @@ void BlueJam::start(JamMode mode) {
     _running = true;
     _packetsSent = 0;
     _currentChannel = BT_CHANNEL_START;
+    _bleHopIndex = 0;
 
     powerUp();
 
@@ -168,9 +169,8 @@ void BlueJam::update() {
         }
     } else if (_mode == JAM_BLE) {
         // BLE: use the specific BLE channel mapping
-        static uint8_t bleIdx = 0;
-        bleIdx = (bleIdx + 1) % BLE_NUM_CHANNELS;
-        _currentChannel = _bleChannels[bleIdx];
+        _bleHopIndex = (_bleHopIndex + 1) % BLE_NUM_CHANNELS;
+        _currentChannel = _bleChannels[_bleHopIndex];
     }
 }
 

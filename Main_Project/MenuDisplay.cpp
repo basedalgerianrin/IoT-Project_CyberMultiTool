@@ -1,10 +1,7 @@
 #include "MenuDisplay.h"
 
-// Single global TFT driver — matches the working CapTouch example
-// Uses Adafruit_ILI9341 with explicit CS, DC, RST pins (no User_Setup.h needed)
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
 
-// --- Back button constants ---
 #define BACK_BTN_W 70
 #define BACK_BTN_H 35
 #define BACK_BTN_X (240 - BACK_BTN_W - 5)
@@ -15,11 +12,9 @@ MenuDisplay::MenuDisplay() : _lastTotal(0), _graphInited(false) {
 }
 
 void MenuDisplay::begin() {
-    Wire.begin(21, 22);  // SDA=21, SCL=22 for FT6206 touch controller
-
-    // Initialise the ILI9341 display — sends reset pulse via TFT_RST pin
+    Wire.begin(21, 22);
     tft.begin();
-    tft.setRotation(0);            // Portrait 240x320
+    tft.setRotation(0);
     tft.fillScreen(COL_BLACK);
     tft.setTextColor(COL_WHITE);
     tft.setTextSize(2);
@@ -30,9 +25,7 @@ void MenuDisplay::begin() {
     }
 }
 
-// ── Text helpers ─────────────────────────────────────────────────────────────
-// drawText: replaces TFT_eSPI drawString(text, x, y, font)
-// Font mapping: old font 1 → size 1, font 2 → size 2, font 4 → size 3
+// ── Text helpers ────────────────────────────────────────────────────────────
 void MenuDisplay::drawText(const char* text, int16_t x, int16_t y, uint8_t size) {
     tft.setTextSize(size);
     tft.setCursor(x, y);
@@ -43,8 +36,6 @@ void MenuDisplay::drawText(const String &text, int16_t x, int16_t y, uint8_t siz
     drawText(text.c_str(), x, y, size);
 }
 
-// drawCentered: replaces TFT_eSPI setTextDatum(MC_DATUM) + drawString
-// Uses x1/y1 offsets from getTextBounds for accurate centering
 void MenuDisplay::drawCentered(const char* text, int16_t cx, int16_t cy, uint8_t size) {
     tft.setTextSize(size);
     int16_t x1, y1;
@@ -92,23 +83,14 @@ bool MenuDisplay::checkBackButton(int tftX, int tftY) {
             tftY >= BACK_BTN_Y && tftY <= (BACK_BTN_Y + BACK_BTN_H));
 }
 
-// ── Touch Handling ───────────────────────────────────────────────────────────
-// Touch mapping matches the working CapTouch example, adapted for rotation 0
+// ── Touch Handling ──────────────────────────────────────────────────────────
 PageState MenuDisplay::checkTouch() {
     if (!touch.touched()) return PAGE_NONE;
 
     TS_Point p = touch.getPoint();
 
-    // Map FT6206 touch coords to screen coords for rotation 0 (portrait)
-    // X axis: direct (p.x maps to screen x)
-    // Y axis: inverted (p.y=320 is screen top, p.y=0 is screen bottom)
     int x = p.x;
     int y = 320 - p.y;
-
-    // Debug: remove this line once touch is confirmed working
-    Serial.print("Touch RAW("); Serial.print(p.x); Serial.print(","); Serial.print(p.y);
-    Serial.print(") -> SCREEN("); Serial.print(x); Serial.print(","); Serial.print(y);
-    Serial.println(")");
 
     if (checkBackButton(x, y)) return PAGE_MENU;
 
@@ -122,7 +104,7 @@ PageState MenuDisplay::checkTouch() {
         if (y > 240 && y < 280) return PAGE_GPS;
     }
 
-    return PAGE_NONE;  // Touch missed all buttons — ignore it
+    return PAGE_NONE;
 }
 
 // ── Pages ────────────────────────────────────────────────────────────────────
@@ -147,6 +129,7 @@ void MenuDisplay::showWirelessSensorPage() {
     tft.setTextColor(COL_WHITE);
     drawText("WIRELESS SENSOR", 20, 20, 3);
     drawBackButton();
+    drawLockButton(false, 1);
 }
 
 void MenuDisplay::showGPSPage() {
@@ -170,49 +153,33 @@ void MenuDisplay::drawSnifferData(WiFiSniffer &sniffer) {
     drawPacketGraph(sniffer);
 }
 
-// ── Live scrolling bar graph (inspired by TechTalkies WiFi traffic monitor) ──
-// Shows packets-per-second as vertical bars scrolling left to right.
-// Graph area: x=10..230, y=160..270 (220px wide, 110px tall)
+// ── Live scrolling packet graph ─────────────────────────────────────────────
 void MenuDisplay::drawPacketGraph(WiFiSniffer &sniffer) {
-    const int GX = 10;        // graph left edge
-    const int GY = 155;       // graph top edge
-    const int GH = 100;       // graph height in pixels
-    const int GW = GRAPH_W;   // graph width (matches history array)
+    const int GX = 10, GY = 155, GH = 100, GW = GRAPH_W;
 
-    // Calculate packets since last call (delta)
     unsigned long currentTotal = sniffer.getTotal();
     if (!_graphInited) {
         _lastTotal = currentTotal;
         _graphInited = true;
     }
-    unsigned int delta = (unsigned int)(currentTotal - _lastTotal);
+    uint16_t delta = (uint16_t)min(currentTotal - _lastTotal, (unsigned long)UINT16_MAX);
     _lastTotal = currentTotal;
 
-    // Shift history left, add new sample at the right
-    for (int i = 0; i < GW - 1; i++) {
-        _graphHistory[i] = _graphHistory[i + 1];
-    }
+    memmove(_graphHistory, &_graphHistory[1], (GW - 1) * sizeof(_graphHistory[0]));
     _graphHistory[GW - 1] = delta;
 
-    // Find max value for auto-scaling (like the reference project)
-    unsigned int maxVal = 1;
+    uint16_t maxVal = 1;
     for (int i = 0; i < GW; i++) {
         if (_graphHistory[i] > maxVal) maxVal = _graphHistory[i];
     }
 
-    // Clear graph area
     tft.fillRect(GX, GY, GW, GH + 15, COL_BLACK);
-
-    // Draw border
     tft.drawRect(GX - 1, GY - 1, GW + 2, GH + 2, COL_DARKGREY);
-
-    // Draw horizontal grid lines (25%, 50%, 75%)
     for (int g = 1; g <= 3; g++) {
         int gy = GY + GH - (GH * g / 4);
         tft.drawFastHLine(GX, gy, GW, tft.color565(30, 30, 50));
     }
 
-    // Draw bars — green for normal traffic, red spike if high deauth rate
     bool deauthAlert = sniffer.getDeauths() > 5;
     for (int i = 0; i < GW; i++) {
         if (_graphHistory[i] == 0) continue;
@@ -222,9 +189,8 @@ void MenuDisplay::drawPacketGraph(WiFiSniffer &sniffer) {
 
         uint16_t color;
         if (deauthAlert && i >= GW - 3) {
-            color = COL_RED;       // last few bars red during deauth
+            color = COL_RED;
         } else {
-            // Gradient: low=cyan, high=green
             int g = map(barH, 0, GH, 80, 255);
             int b = map(barH, 0, GH, 255, 40);
             color = tft.color565(0, g, b);
@@ -233,7 +199,6 @@ void MenuDisplay::drawPacketGraph(WiFiSniffer &sniffer) {
         tft.drawFastVLine(GX + i, GY + GH - barH, barH, color);
     }
 
-    // Label below graph
     tft.setTextColor(COL_DARKGREY);
     drawText("pkt/s", GX, GY + GH + 3, 1);
     tft.setTextColor(COL_CYAN);
@@ -303,9 +268,9 @@ void MenuDisplay::drawSensorData(WiFiSniffer &sniffer) {
         int8_t rssi = target.rssi;
 
         int r, g, b;
-        if (rssi > -45)      { r = 255; g = 0;   b = 0;   }
-        else if (rssi > -60) { r = 255; g = 140; b = 0;   }
-        else if (rssi > -75) { r = 0;   g = 100; b = 255; }
+        if (rssi > -55)      { r = 255; g = 0;   b = 0;   }
+        else if (rssi > -70) { r = 255; g = 140; b = 0;   }
+        else if (rssi > -85) { r = 0;   g = 100; b = 255; }
         else                 { r = 0;   g = 30;  b = 150; }
 
         uint16_t color = tft.color565(r, g, b);
@@ -313,9 +278,9 @@ void MenuDisplay::drawSensorData(WiFiSniffer &sniffer) {
 
         tft.setTextColor(COL_WHITE);
         const char* label;
-        if      (rssi > -45) label = "HOT!";
-        else if (rssi > -60) label = "WARM";
-        else if (rssi > -75) label = "COOL";
+        if      (rssi > -55) label = "HOT!";
+        else if (rssi > -70) label = "WARM";
+        else if (rssi > -85) label = "COOL";
         else                 label = "COLD";
 
         drawCentered(label, tft.width() / 2, 130, 3);
@@ -348,6 +313,42 @@ void MenuDisplay::drawSensorData(WiFiSniffer &sniffer) {
         drawCentered("Walk around to", tft.width() / 2, 200, 2);
         drawCentered("detect transmitters", tft.width() / 2, 220, 2);
     }
+}
+
+// ── Lock/Scan toggle button ──────────────────────────────────────────────────
+// Lock button — drawn on opposite side from back button
+// Back button is at BACK_BTN_X (right side), so lock goes left
+#define LOCK_BTN_X  5
+#define LOCK_BTN_Y  BACK_BTN_Y
+#define LOCK_BTN_W  90
+#define LOCK_BTN_H  BACK_BTN_H
+
+void MenuDisplay::drawLockButton(bool locked, uint8_t channel) {
+    tft.fillRect(LOCK_BTN_X, LOCK_BTN_Y, LOCK_BTN_W, LOCK_BTN_H, COL_BLACK);
+
+    uint16_t btnColor = locked ? COL_RED : COL_CYAN;
+    tft.fillRect(LOCK_BTN_X, LOCK_BTN_Y, LOCK_BTN_W, LOCK_BTN_H, COL_DARKGREY);
+    tft.drawRect(LOCK_BTN_X, LOCK_BTN_Y, LOCK_BTN_W, LOCK_BTN_H, btnColor);
+    tft.setTextColor(COL_WHITE);
+    if (locked) {
+        drawText("LOCK " + String(channel), LOCK_BTN_X + 4, LOCK_BTN_Y + 8, 1);
+    } else {
+        drawText("SCAN", LOCK_BTN_X + 4, LOCK_BTN_Y + 8, 1);
+    }
+}
+
+bool MenuDisplay::checkLockButton() {
+    if (!touch.touched()) return false;
+
+    TS_Point p = touch.getPoint();
+    int x = p.x;
+    int y = 320 - p.y;
+
+    // Touch X is inverted from draw X on this panel
+    int drawX = 240 - x;
+
+    return (drawX >= LOCK_BTN_X && drawX <= (LOCK_BTN_X + LOCK_BTN_W) &&
+            y >= LOCK_BTN_Y && y <= (LOCK_BTN_Y + LOCK_BTN_H));
 }
 
 // ── GPS live data display ────────────────────────────────────────────────────

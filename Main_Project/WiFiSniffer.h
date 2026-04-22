@@ -47,9 +47,9 @@ struct DeviceStats {
 };
 
 // --- Thresholds for "suspicious" device detection ---
-#define SUSPECT_MIN_PACKETS   20    // need at least this many to judge
-#define SUSPECT_DATA_RATIO    60    // percent data frames to flag
-#define SUSPECT_BIMODAL_MIN   5     // need at least this many large+small frames
+#define SUSPECT_MIN_PACKETS   10    // need at least this many to judge
+#define SUSPECT_DATA_RATIO    40    // percent data frames to flag
+#define SUSPECT_BIMODAL_MIN   3     // need at least this many large+small frames
 
 // --- RSSI smoothing factor (0.0-1.0, lower = more smoothing) ---
 // Research says raw RSSI swings +/-15 dBm. EMA with alpha=0.3 gives
@@ -60,7 +60,7 @@ struct DeviceStats {
 // Most WiFi devices operate on channels 1, 6, or 11 (non-overlapping).
 // We hop across these three to find devices, then lock onto the suspect's channel.
 #define NUM_SCAN_CHANNELS     3
-#define CHANNEL_DWELL_MS      300   // how long to stay on each channel during scan
+#define CHANNEL_DWELL_MS      800   // how long to stay on each channel during scan
 
 class WiFiSniffer {
 public:
@@ -124,6 +124,7 @@ private:
     static DeviceStats _devices[MAX_UNIQUE_MACS];
     static uint8_t _deviceCount;
     static void trackDevice(const uint8_t mac[6], int8_t rssi, PktType pktType, uint16_t frameLen);
+    static bool isDeviceSuspicious(const DeviceStats& d);
 
     // --- Channel hopping state ---
     static bool _hopping;              // true = scanning, false = locked

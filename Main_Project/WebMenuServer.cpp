@@ -55,7 +55,6 @@ void WebMenuServer::begin() {
 void WebMenuServer::handleClient() {
     if (WiFi.status() == WL_CONNECTED) {
         _server.handleClient();
-        delay(2);
     }
 }
 
@@ -86,10 +85,10 @@ static const char* CSS =
 
 // ─── Pages ────────────────────────────────────────────────────────────────────
 
-void WebMenuServer::handleRoot() { handleSniffer(); }
-
 void WebMenuServer::handleSniffer() {
-    String html = "<!DOCTYPE html><html><head>"
+    String html;
+    html.reserve(4096);
+    html = "<!DOCTYPE html><html><head>"
         "<meta charset='UTF-8'>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<meta http-equiv='refresh' content='3'>"
@@ -151,7 +150,9 @@ void WebMenuServer::handleSensor() {
     // ── Find the strongest suspicious device for the hot/cold indicator ──
     int targetIdx = _sniffer.getStrongestSuspicious();
 
-    String html = "<!DOCTYPE html><html><head>"
+    String html;
+    html.reserve(4096);
+    html = "<!DOCTYPE html><html><head>"
         "<meta charset='UTF-8'>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<meta http-equiv='refresh' content='2'>"
@@ -185,9 +186,9 @@ void WebMenuServer::handleSensor() {
 
         const char* cls;
         const char* label;
-        if      (rssi > -45) { cls = "hot";  label = "HOT — Very Close!"; }
-        else if (rssi > -60) { cls = "warm"; label = "WARM — Getting Closer"; }
-        else if (rssi > -75) { cls = "cool"; label = "COOL — Moderate Distance"; }
+        if      (rssi > -55) { cls = "hot";  label = "HOT — Very Close!"; }
+        else if (rssi > -70) { cls = "warm"; label = "WARM — Getting Closer"; }
+        else if (rssi > -85) { cls = "cool"; label = "COOL — Moderate Distance"; }
         else                 { cls = "cold"; label = "COLD — Far Away"; }
 
         // Check if we know the vendor from OUI
@@ -274,7 +275,9 @@ void WebMenuServer::handleSensor() {
 }
 
 void WebMenuServer::handleGPS() {
-    String html = "<!DOCTYPE html><html><head>"
+    String html;
+    html.reserve(1024);
+    html = "<!DOCTYPE html><html><head>"
         "<meta charset='UTF-8'>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<meta http-equiv='refresh' content='5'>"
@@ -294,7 +297,9 @@ void WebMenuServer::handleGPS() {
 }
 
 void WebMenuServer::handleJam() {
-    String html = "<!DOCTYPE html><html><head>"
+    String html;
+    html.reserve(3072);
+    html = "<!DOCTYPE html><html><head>"
         "<meta charset='UTF-8'>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'>"
         "<meta http-equiv='refresh' content='2'>"

@@ -60,12 +60,17 @@ public:
     void drawJamData(WiFiSniffer &sniffer, StrawberryJam &jam);
     void drawGPSData(GPSReader &gps);
 
+    // Lock/Scan toggle button on sensor page
+    // Returns true if the lock button was pressed
+    bool checkLockButton();
+    void drawLockButton(bool locked, uint8_t channel);
+
 private:
     Adafruit_FT6206 touch;
 
     // ── Live packet graph (scrolling bar chart like WiFi traffic monitor) ──
     static const int GRAPH_W = 220;       // graph width in pixels (one bar per pixel)
-    unsigned int _graphHistory[220];       // packet count per sample period
+    uint16_t _graphHistory[220];            // packet count per sample period
     unsigned long _lastTotal;              // previous total for delta calculation
     bool _graphInited;                     // flag to zero-fill on first use
     void drawPacketGraph(WiFiSniffer &sniffer);

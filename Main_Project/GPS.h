@@ -2,7 +2,11 @@
 #define GPS_H
 
 #include <Arduino.h>
-#include <TinyGPS++.h> 
+#include <TinyGPS++.h>
+#include <time.h>
+
+// UTC offset for Irish Standard Time (IST = UTC+1 in summer, GMT = UTC+0 in winter)
+#define GPS_UTC_OFFSET_SEC  3600   // +1 hour in seconds
 
 class GPSReader {
 public:
@@ -12,10 +16,10 @@ public:
     void printStatus();
 
     // --- Getter methods for TFT display ---
-    float getLatitude();
-    float getLongitude();
-    float getAltitude();
-    float getSpeed();
+    double getLatitude();
+    double getLongitude();
+    double getAltitude();
+    double getSpeed();
     String getDateTime();
 
 private:
